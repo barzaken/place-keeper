@@ -1,6 +1,7 @@
 'use strict'
 var gMap
 var gPlaces = []
+var gMarkers = []
 
 function getPosition() {
     if (!navigator.geolocation) {
@@ -30,6 +31,8 @@ function goPlace(id){
 function removePlace(id){
     let idx = gPlaces.findIndex(place => place.id === id)
     gPlaces.splice(idx,1)
+    let markerIdx = gMarkers.findIndex(marker => marker.id === id)
+    gMarkers[markerIdx].setMap(null)
 }
 
 function initMap(lat, lng) {
@@ -52,31 +55,34 @@ function initMap(lat, lng) {
 
     gMap.addListener('click', function (e) {
         let placeName = prompt('Enter Location Name')
-        addPlace(e.latLng, placeName)
-        addMarker(e.latLng, placeName);
+        let id = makeId()
+        addPlace(e.latLng, placeName,id)
+        addMarker(e.latLng, placeName,id);
     })
 }
 
 
-function addPlace(latLng, placeName) {
+function addPlace(latLng, placeName,id) {
     let coords =  JSON.stringify(latLng.toJSON())
     let {lat} = JSON.parse(coords)
     let {lng} = JSON.parse(coords)
     gPlaces.push({
-        id: makeId(),
+        id,
         lat,
         lng,
         name: placeName
     })
 }
 
-function addMarker(latLng, placeName) {
+function addMarker(latLng, placeName,id) {
     let marker = new google.maps.Marker({
+        id,
         map: gMap,
         position: latLng,
         draggable: true,
         title: placeName,
     })
+    gMarkers.push(marker)
     renderPlaces()
 }
 
