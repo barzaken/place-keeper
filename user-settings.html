@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/user-settings.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <section class="menu">
+    <form id="frmRegister" onsubmit="onSavePrefs(event)">
+        <table>
+            <tr>
+                <td><label for="name">First Name:</label></td>
+                <td>
+                    <input type="text" id="name" name="name" placeholder="First name" required />
+                </td>
+            </tr>
+            <tr>
+                <td><label for="color">Backgroung Color:</label></td>
+                <td><input type="color" id="bg-color" name="bgcolor"/></td>
+            </tr>
+            <tr>
+                <td><label for="color">Text Color:</label></td>
+                <td><input type="color" id="txt-color" name="txtcolor"/></td>
+            </tr>
+            <tr>
+                <td><label for="zoom">Zoom Factor:</label></td>
+                <td><input type="range" id="zoom" name="zoom" step="1" min="1" max="21" value="10"
+                        onchange="showZoom(this.value)" />
+                    <span id="sZoom">10</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="start-location">Map Start Location:</label></td>
+                <td>
+                    <input type="text" id="start-location" name="start-location"/>
+                </td>
+            </tr>
+        </table>
+        <button>Save</button>
+        <a href="index.html">HomePage</a>
+    </form>
+    </section>
+    <script src="js/storage-service.js"></script>
+    
+    <script src="js/user-service.js"></script>
+</body>
+
+</html>
