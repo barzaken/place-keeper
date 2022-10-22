@@ -1,4 +1,7 @@
 'use strict'
+let gMarkers = []
+
+
 
 function renderPlaces() {
     const places = getPlaces()
@@ -9,6 +12,21 @@ function renderPlaces() {
         </li>
     `)
     document.querySelector('.list-places').innerHTML = strHTMLs.join('')
+    renderMarkers()
+}
+
+
+function renderMarkers(){
+        const places = getPlaces()
+        gMarkers.forEach(marker => marker.setMap(null))
+        gMarkers = places.map(({ lat, lng, name }) => {
+            const coord = { lat, lng }
+            return new google.maps.Marker({
+                position: coord,
+                map: gMap,
+                title: name
+            })
+        })
 }
 
 function onClickPlace(id){
@@ -19,3 +37,4 @@ function onRemovePlace(id){
     removePlace(id)
     renderPlaces()
 }
+

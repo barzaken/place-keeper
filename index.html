@@ -7,11 +7,16 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
-<body>
+<body onload="onLoad()">
     <section class="interface">
         <h1>Hello User</h1>
         <a href="user-settings.html">User Settings</a>
         <a href="map.html">Map</a>
-    </section>    
+    </section>   
+
+    <script src="js/services/storage-service.js"></script>
+    <script src="js/services/user-service.js"></script>
+    <script src="js/user.controller.js"></script>
+    <script src="js/home.controller.js"></script>
 </body>
 </html>

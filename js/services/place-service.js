@@ -1,7 +1,21 @@
 'use strict'
 var gMap
 var gPlaces = []
-var gMarkers = []
+var gZoomFactor
+
+const PLACES_KEY = 'places'
+
+function _savePlaces(){
+    saveToStorage(PLACES_KEY,gPlaces)
+}
+
+function init(){
+    getPosition()
+    let {zoomFactor} = loadSettings()
+    gZoomFactor = +zoomFactor
+    gPlaces = loadFromStorage(PLACES_KEY) || []
+    renderPlaces()
+}
 
 function getPosition() {
     if (!navigator.geolocation) {
@@ -31,15 +45,15 @@ function goPlace(id){
 function removePlace(id){
     let idx = gPlaces.findIndex(place => place.id === id)
     gPlaces.splice(idx,1)
-    let markerIdx = gMarkers.findIndex(marker => marker.id === id)
-    gMarkers[markerIdx].setMap(null)
+    _savePlaces()
+    renderPlaces()
 }
 
 function initMap(lat, lng) {
     var elMap = document.querySelector('.map')
     var options = {
         center: { lat, lng },
-        zoom: gZoomFactor || 8
+        zoom: gZoomFactor
     }
 
     gMap = new google.maps.Map(
@@ -47,17 +61,10 @@ function initMap(lat, lng) {
         options
     )
 
-    // var marker = new google.maps.Marker({
-    //     map: gMap,
-    //     position: { lat, lng },
-    //     title: 'Positions'
-    // })
-
     gMap.addListener('click', function (e) {
         let placeName = prompt('Enter Location Name')
-        let id = makeId()
-        addPlace(e.latLng, placeName,id)
-        addMarker(e.latLng, placeName,id);
+        addPlace(e.latLng, placeName)
+        _savePlaces()
     })
 }
 
@@ -67,26 +74,13 @@ function addPlace(latLng, placeName,id) {
     let {lat} = JSON.parse(coords)
     let {lng} = JSON.parse(coords)
     gPlaces.push({
-        id,
+        id : makeId(),
         lat,
         lng,
-        name: placeName
+        name: placeName,
     })
-}
-
-function addMarker(latLng, placeName,id) {
-    let marker = new google.maps.Marker({
-        id,
-        map: gMap,
-        position: latLng,
-        draggable: true,
-        title: placeName,
-    })
-    gMarkers.push(marker)
     renderPlaces()
 }
-
-
 
 
 function handleLocationError(error) {

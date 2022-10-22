@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body onload="loadSettings()">
     <section class="menu">
     <form id="frmRegister" onsubmit="onSavePrefs(event)">
         <table>
@@ -21,15 +21,15 @@
             </tr>
             <tr>
                 <td><label for="color">Backgroung Color:</label></td>
-                <td><input type="color" id="bg-color" name="bgcolor"/></td>
+                <td><input oninput="onChangeBgColor(this.value)" type="color" id="bg-color" name="bgColor"/></td>
             </tr>
             <tr>
                 <td><label for="color">Text Color:</label></td>
-                <td><input type="color" id="txt-color" name="txtcolor"/></td>
+                <td><input oninput="onChangeTxtColor(this.value)" type="color" id="txt-color" name="textColor"/></td>
             </tr>
             <tr>
                 <td><label for="zoom">Zoom Factor:</label></td>
-                <td><input type="range" id="zoom" name="zoom" step="1" min="1" max="21" value="10"
+                <td><input type="range" id="zoom" name="zoomFactor" step="1" min="1" max="21" value="10"
                         onchange="showZoom(this.value)" />
                     <span id="sZoom">10</span>
                 </td>
@@ -45,9 +45,9 @@
         <a href="index.html">HomePage</a>
     </form>
     </section>
-    <script src="js/storage-service.js"></script>
-    
-    <script src="js/user-service.js"></script>
+    <script src="js/services/storage-service.js"></script>
+    <script src="js/services/user-service.js"></script>
+    <script src="js/user.controller.js"></script>
 </body>
 
 </html>
