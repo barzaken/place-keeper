@@ -1,21 +1,11 @@
 'use strict'
-var gMap
-var gPlaces = []
-var gZoomFactor
 
 const PLACES_KEY = 'places'
 
-function _savePlaces(){
-    saveToStorage(PLACES_KEY,gPlaces)
-}
-
-function init(){
-    getPosition()
-    let {zoomFactor} = loadSettings()
-    gZoomFactor = +zoomFactor
-    gPlaces = loadFromStorage(PLACES_KEY) || []
-    renderPlaces()
-}
+let gMap
+const {zoomFactor} = loadSettings()
+let gZoomFactor = +zoomFactor
+let gPlaces = loadFromStorage(PLACES_KEY) || []
 
 function getPosition() {
     if (!navigator.geolocation) {
@@ -48,6 +38,9 @@ function removePlace(id){
     _savePlaces()
     renderPlaces()
 }
+function _savePlaces(){
+    saveToStorage(PLACES_KEY,gPlaces)
+}
 
 function initMap(lat, lng) {
     var elMap = document.querySelector('.map')
@@ -66,6 +59,7 @@ function initMap(lat, lng) {
         addPlace(e.latLng, placeName)
         _savePlaces()
     })
+    renderPlaces()
 }
 
 

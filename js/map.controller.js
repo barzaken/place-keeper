@@ -1,8 +1,6 @@
 'use strict'
 let gMarkers = []
 
-
-
 function renderPlaces() {
     const places = getPlaces()
     const strHTMLs = places.map(place => `
@@ -16,24 +14,27 @@ function renderPlaces() {
 }
 
 
-function renderMarkers(){
-        const places = getPlaces()
-        gMarkers.forEach(marker => marker.setMap(null))
-        gMarkers = places.map(({ lat, lng, name }) => {
-            const coord = { lat, lng }
-            return new google.maps.Marker({
-                position: coord,
-                map: gMap,
-                title: name
-            })
+function renderMarkers() {
+    const places = getPlaces()
+    //Remove all markers
+    gMarkers.forEach(marker => marker.setMap(null))
+
+    //Add all markers
+    gMarkers = places.map(({ lat, lng, name }) => {
+        const coord = { lat, lng }
+        return new google.maps.Marker({
+            position: coord,
+            map: gMap,
+            title: name
         })
+    })
 }
 
-function onClickPlace(id){
+function onClickPlace(id) {
     goPlace(id)
 }
 
-function onRemovePlace(id){
+function onRemovePlace(id) {
     removePlace(id)
     renderPlaces()
 }
